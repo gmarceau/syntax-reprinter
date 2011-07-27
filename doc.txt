@@ -1,0 +1,66 @@
+_syntax-reprinter.ss_: print syntax objects, preserving lines and columns
+             
+          
+Quick Example
+-------------
+
+Let's say that we had a syntax with complete location information, and would like
+to reprint it, preserving columns and lines.  That's the job of _syntax-reprinter_.
+
+
+    > (require (planet "syntax-reprinter.ss ("dyoo" "syntax-reprinter.plt")))
+    > (define outp (open-output-string))
+    >
+    > (syntax-reprint
+       (syntax (define (factorial x)
+                 (if (= x 0)
+                     1
+                     (* x (factorial (sub1 x))))))
+       outp)
+    >
+    > (get-output-string outp)
+    "           (define (factorial x)\n             (if (= x 0)\n                 1\n                 (* x (factorial (sub1 x)))))"
+    >
+    > (printf "~a~n" (get-output-string outp))
+               (define (factorial x)
+                 (if (= x 0)
+                     1
+                     (* x (factorial (sub1 x)))))
+    >
+
+
+That's pretty much it.  Only one function is provided here, _syntax-reprint_.
+
+
+
+Functions
+---------
+
+> syntax-reprint: syntax [output-port] -> void
+
+Prints out the syntax to the output-port, adding newlines and spaces according to the
+syntax-line and syntax-column properties of the syntax.
+
+If the output-port isn't given, uses (current-output-port) by default.
+
+
+
+Known Bugs
+----------
+
+Handling syntaxes where there are newlines right before a closing paren isn't handled;
+I don't think enough information is preserved in syntax objects to reconstruct the
+textual representation.  (If I'm wrong, please correct me so I can fix it!  *grin*)
+
+
+
+Thanks
+------
+
+Thanks to Kyle Smith for getting me interested in the problem.  See:
+
+   http://list.cs.brown.edu/pipermail/plt-scheme/2007-January/016054.html
+
+for the thread that starts things up.  Also, thanks to Guillaume Marceau for
+getting me involved with DivaScheme.  Writing code without it would
+be otherwise very painful.  Thanks to the rest of the PLT team!

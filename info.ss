@@ -1,0 +1,7 @@
+(module info (lib "infotab.ss" "setup")
+  (define name "syntax-reprinter")
+  (define blurb '("print syntax objects, preserving lines and columns"))
+  (define categories '(devtools))
+  (define doc.txt "doc.txt")
+  (define primary-file "syntax-reprinter.ss")
+  (define version "1.0"))
